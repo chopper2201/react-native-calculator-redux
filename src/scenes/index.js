@@ -1,0 +1,199 @@
+import React, { Component } from 'react';
+import { StyleSheet, View, Text, SafeAreaView, Dimensions, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import Button from '../components/Button';
+import * as appActions from '../store/action/app';
+
+type Props = {
+	dispatch?: Function,
+};
+
+@connect(({ app }) => {
+	return {
+		displayValue: app.displayValue,
+		previousValue: app.previousValue,
+		operator: app.operator,
+	};
+})
+
+class CalculatorScene extends Component {
+	props: Props;
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			value: 0,
+		}
+	}
+
+	clearValue = () => {
+		const { dispatch } = this.props;
+		dispatch(appActions.clear());
+	};
+
+	getButtonValue = (value) => {
+		const { dispatch } = this.props;
+		dispatch(appActions.updateNumber(value));
+	};
+
+	getOperator = (value) => {
+		const { dispatch } = this.props;
+		dispatch(appActions.calculate(value));
+	};
+
+	getEqual = (value) => {
+		const { dispatch } = this.props;
+		dispatch(appActions.equal(value))
+	}
+
+	render() {
+		const { displayValue, previousValue } = this.props;
+		return <View style={styles.container}>
+			<SafeAreaView>
+				<View style={styles.headerContainer}>
+					<Text style={styles.headerTitle}>Calculator</Text>
+					<TouchableOpacity onPress={() => this.clearValue()}>
+						<Text style={styles.headerText}>Reset</Text>
+					</TouchableOpacity>
+				</View>
+				<View style={styles.resultContainer}>
+					<Text style={styles.resultText}>
+						{displayValue === null ? previousValue : displayValue}
+					</Text>
+				</View>
+				<View style={styles.row}>
+					<Button
+						text="7"
+						theme="gray"
+						onPress={() => this.getButtonValue('7')}
+					/>
+					<Button
+						text="8"
+						theme="gray"
+						onPress={() => this.getButtonValue('8')}
+					/>
+					<Button
+						text="9"
+						theme="gray"
+						onPress={() => this.getButtonValue('9')}
+					/>
+					<Button
+						text="%"
+						theme="yellow"
+						onPress={() => this.getOperator('device')}
+					/>
+				</View>
+				<View style={styles.row}>
+					<Button
+						text="4"
+						theme="gray"
+						onPress={() => this.getButtonValue('4')}
+					/>
+					<Button
+						text="5"
+						theme="gray"
+						onPress={() => this.getButtonValue('5')}
+					/>
+					<Button
+						text="6"
+						theme="gray"
+						onPress={() => this.getButtonValue('6')}
+					/>
+					<Button
+						text="x"
+						theme="yellow"
+						onPress={() => this.getOperator('multiple')}
+					/>
+				</View>
+				<View style={styles.row}>
+					<Button
+						text="1"
+						theme="gray"
+						onPress={() => this.getButtonValue('1')}
+					/>
+					<Button
+						text="2"
+						theme="gray"
+						onPress={() => this.getButtonValue('2')}
+					/>
+					<Button
+						text="3"
+						theme="gray"
+						onPress={() => this.getButtonValue('3')}
+					/>
+					<Button
+						text="-"
+						theme="yellow"
+						onPress={() => this.getOperator('sub')}
+					/>
+				</View>
+				<View style={styles.row}>
+					<Button
+						text="0"
+						theme="gray"
+					/>
+					<Button
+						text="."
+						theme="gray"
+						onPress={() => this.getButtonValue('.')}
+					/>
+					<Button
+						text="="
+						theme="yellow"
+						onPress={() => this.getEqual(previousValue)}
+					/>
+					<Button
+						text="+"
+						theme="yellow"
+						onPress={() => this.getOperator('plus')}
+					/>
+				</View>
+			</SafeAreaView>
+		</View>;
+	}
+}
+
+export default CalculatorScene;
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+	},
+	row: {
+		flexDirection: 'row',
+		marginHorizontal: 10
+	},
+	resultContainer: {
+		borderWidth: 1,
+		borderColor: '#c3c3c3',
+		paddingHorizontal: 20,
+		paddingVertical: 10,
+		justifyContent: 'flex-end',
+		marginVertical: 50,
+		marginHorizontal: 10
+	},
+	resultText: {
+		color: '#222222',
+		fontSize: 30,
+		fontWeight: '600',
+		textAlign: 'right'
+	},
+	headerContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderBottomWidth: 1,
+		borderBottomColor: '#C3C3C3',
+	},
+	headerTitle: {
+		color: '#222222',
+		fontSize: 20,
+		textAlign: 'center',
+		fontWeight: '600'
+	},
+	headerText: {
+		color: '#333333',
+		// paddingLeft: screen.width / 4,
+	}
+});
