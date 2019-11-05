@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
-import { utils, RuuiProvider, Button, Tooltip } from 'react-universal-ui';
+import { View, StyleSheet } from 'react-native';
+import { RuuiProvider, Button, Tooltip } from 'react-universal-ui';
 import { connect, Provider } from 'react-redux';
 
 import { ruuiStore, appStore } from './store';
-import * as appActions from './store/action/app';
 import CalculatorScene from './scenes';
 
 
@@ -24,13 +23,9 @@ class App extends Component {
 
 	render() {
 		return <View style={styles.container}>
-			<CalculatorScene/>
+			<CalculatorScene />
 		</View>;
 	}
-
-	increaseCounter = () => {
-		this.props.dispatch(appActions.increaseCounter());
-	};
 }
 
 function AppContainer(props) {

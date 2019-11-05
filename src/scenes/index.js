@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import Button from '../components/Button';
 import * as appActions from '../store/action/app';
 
 type Props = {
 	dispatch?: Function,
+	displayValue?: String,
+	previousValue?: String
 };
 
 @connect(({ app }) => {
@@ -22,8 +24,7 @@ class CalculatorScene extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			value: 0,
-		}
+		};
 	}
 
 	clearValue = () => {
@@ -43,61 +44,51 @@ class CalculatorScene extends Component {
 
 	getEqual = (value) => {
 		const { dispatch } = this.props;
-		dispatch(appActions.equal(value))
-	}
+		dispatch(appActions.equal(value));
+	};
 
 	render() {
 		const { displayValue, previousValue } = this.props;
 		return <View style={styles.container}>
+			<StatusBar barStyle="light-content"/>
 			<SafeAreaView>
-				<View style={styles.headerContainer}>
-					<Text style={styles.headerTitle}>Calculator</Text>
-					<TouchableOpacity onPress={() => this.clearValue()}>
-						<Text style={styles.headerText}>Reset</Text>
-					</TouchableOpacity>
-				</View>
-				<View style={styles.resultContainer}>
-					<Text style={styles.resultText}>
-						{displayValue === null ? previousValue : displayValue}
-					</Text>
-				</View>
+				<Text style={styles.resultText}>
+					{Number(displayValue).toLocaleString()}
+				</Text>
 				<View style={styles.row}>
 					<Button
-						text="7"
+						text="AC"
 						theme="gray"
-						onPress={() => this.getButtonValue('7')}
+						onPress={() => this.clearValue()}
 					/>
 					<Button
-						text="8"
+						text="+/-"
 						theme="gray"
-						onPress={() => this.getButtonValue('8')}
-					/>
-					<Button
-						text="9"
-						theme="gray"
-						onPress={() => this.getButtonValue('9')}
+						// onPress={() => this.getButtonValue('8')}
 					/>
 					<Button
 						text="%"
+						theme="gray"
+						onPress={() => this.getButtonValue('percentage')}
+					/>
+					<Button
+						text="/"
 						theme="yellow"
 						onPress={() => this.getOperator('device')}
 					/>
 				</View>
 				<View style={styles.row}>
 					<Button
-						text="4"
-						theme="gray"
-						onPress={() => this.getButtonValue('4')}
+						text="7"
+						onPress={() => this.getButtonValue('7')}
 					/>
 					<Button
-						text="5"
-						theme="gray"
-						onPress={() => this.getButtonValue('5')}
+						text="8"
+						onPress={() => this.getButtonValue('8')}
 					/>
 					<Button
-						text="6"
-						theme="gray"
-						onPress={() => this.getButtonValue('6')}
+						text="9"
+						onPress={() => this.getButtonValue('9')}
 					/>
 					<Button
 						text="x"
@@ -107,19 +98,16 @@ class CalculatorScene extends Component {
 				</View>
 				<View style={styles.row}>
 					<Button
-						text="1"
-						theme="gray"
-						onPress={() => this.getButtonValue('1')}
+						text="4"
+						onPress={() => this.getButtonValue('4')}
 					/>
 					<Button
-						text="2"
-						theme="gray"
-						onPress={() => this.getButtonValue('2')}
+						text="5"
+						onPress={() => this.getButtonValue('5')}
 					/>
 					<Button
-						text="3"
-						theme="gray"
-						onPress={() => this.getButtonValue('3')}
+						text="6"
+						onPress={() => this.getButtonValue('6')}
 					/>
 					<Button
 						text="-"
@@ -129,23 +117,37 @@ class CalculatorScene extends Component {
 				</View>
 				<View style={styles.row}>
 					<Button
+						text="1"
+						onPress={() => this.getButtonValue('1')}
+					/>
+					<Button
+						text="2"
+						onPress={() => this.getButtonValue('2')}
+					/>
+					<Button
+						text="3"
+						onPress={() => this.getButtonValue('3')}
+					/>
+					<Button
+						text="+"
+						theme="yellow"
+						onPress={() => this.getOperator('plus')}
+					/>
+				</View>
+				<View style={styles.row}>
+					<Button
 						text="0"
-						theme="gray"
+						size="large"
+						onPress={() => this.getButtonValue('0')}
 					/>
 					<Button
 						text="."
-						theme="gray"
 						onPress={() => this.getButtonValue('.')}
 					/>
 					<Button
 						text="="
 						theme="yellow"
 						onPress={() => this.getEqual(previousValue)}
-					/>
-					<Button
-						text="+"
-						theme="yellow"
-						onPress={() => this.getOperator('plus')}
 					/>
 				</View>
 			</SafeAreaView>
@@ -158,11 +160,11 @@ export default CalculatorScene;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: '#202020',
+		justifyContent: 'flex-end'
 	},
 	row: {
 		flexDirection: 'row',
-		marginHorizontal: 10
 	},
 	resultContainer: {
 		borderWidth: 1,
@@ -174,26 +176,10 @@ const styles = StyleSheet.create({
 		marginHorizontal: 10
 	},
 	resultText: {
-		color: '#222222',
-		fontSize: 30,
+		color: '#fff',
+		fontSize: 40,
 		fontWeight: '600',
-		textAlign: 'right'
+		textAlign: 'right',
+		marginRight: 10,
 	},
-	headerContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
-		borderBottomWidth: 1,
-		borderBottomColor: '#C3C3C3',
-	},
-	headerTitle: {
-		color: '#222222',
-		fontSize: 20,
-		textAlign: 'center',
-		fontWeight: '600'
-	},
-	headerText: {
-		color: '#333333',
-		// paddingLeft: screen.width / 4,
-	}
 });
