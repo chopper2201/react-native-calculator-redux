@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, StatusBar } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import Button from '../components/Button';
 import * as appActions from '../store/action/app';
@@ -21,12 +21,6 @@ type Props = {
 class CalculatorScene extends Component {
 	props: Props;
 
-	constructor(props) {
-		super(props);
-		this.state = {
-		};
-	}
-
 	clearValue = () => {
 		const { dispatch } = this.props;
 		dispatch(appActions.clear());
@@ -47,6 +41,16 @@ class CalculatorScene extends Component {
 		dispatch(appActions.equal(value));
 	};
 
+	getPercentage = (value) => {
+		const { dispatch } = this.props;
+		dispatch(appActions.percentage(parseFloat(value) * 0.01));
+	};
+
+	getPosneg = (value) => {
+		const { dispatch } = this.props;
+		dispatch(appActions.posneg(parseFloat(value) * -1));
+	};
+
 	render() {
 		const { displayValue, previousValue } = this.props;
 		return <View style={styles.container}>
@@ -64,12 +68,12 @@ class CalculatorScene extends Component {
 					<Button
 						text="+/-"
 						theme="gray"
-						// onPress={() => this.getButtonValue('8')}
+						onPress={() => this.getPosneg(displayValue)}
 					/>
 					<Button
 						text="%"
 						theme="gray"
-						onPress={() => this.getButtonValue('percentage')}
+						onPress={() => this.getPercentage(displayValue)}
 					/>
 					<Button
 						text="/"

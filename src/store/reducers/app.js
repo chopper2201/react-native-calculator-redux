@@ -70,19 +70,15 @@ export default (state = initialState, action) => {
 		return { ...state, counter: state.counter + action.volume };
 	case Actions.UpdateNumber:
 		let result = `${state.displayValue}${action.value}`;
-		return {
-			...state,
-			displayValue: handleNumber(result)
-		};
+		return { ...state, displayValue: handleNumber(result) };
 	case Actions.Calculate:
-		return {
-			...handleChange(action.value, state)
-		};
+		return { ...handleChange(action.value, state) };
 	case Actions.Equal:
-		return {
-			...state,
-			displayValue: handleEqual(action.value, state)
-		};
+		return { ...state, displayValue: handleEqual(action.value, state) };
+	case Actions.Percentage:
+		return { ...state, displayValue: handleNumber(action.value) };
+	case Actions.Posneg:
+		return { ...state, displayValue: handleNumber(action.value) };
 	case Actions.Clear:
 		return initialState;
 	default:

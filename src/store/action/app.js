@@ -15,3 +15,11 @@ export function calculate(value) {
 export function equal(value) {
 	return { type: Actions.Equal, value };
 }
+
+export function percentage(value) {
+	return { type: Actions.Percentage, value };
+}
+
+export function posneg(value) {
+	return { type: Actions.Posneg, value };
+}
