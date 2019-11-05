@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, SafeAreaView, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
-import Button from '../components/Button';
-import * as appActions from '../store/action/app';
+import Button from '../../components/Button';
+import * as appActions from '../../store/action/app';
 
 type Props = {
 	dispatch?: Function,
