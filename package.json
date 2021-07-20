@@ -13,7 +13,7 @@
     "react": "16.9.0",
     "react-art": "^16.5.2",
     "react-dom": "^16.11.0",
-    "react-native": "0.61.3",
+    "react-native": "0.62.3",
     "react-native-web": "^0.11.7",
     "react-redux": "^5.0.7",
     "react-universal-ui": "1.0.43",
